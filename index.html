@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- CRITICAL: Prevents phone browsers from scaling down the page -->
+  <!-- Prevents browser viewport zoom glitches on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Responsive Flipbook</title>
+  <title>8-Page Mobile Flipbook</title>
   
   <!-- StPageFlip CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 
   <style>
     * {
@@ -17,131 +17,526 @@
     }
 
     body {
-      background-color: #121212;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    /* Container wraps the flipbook and forces edge-to-edge layout on phones */
-    .flipbook-wrapper {
       width: 100vw;
-      max-width: 900px;
-      height: 85vh;
+      height: 100vh;
+      background-color: #2b2b2b;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Container for scaling the flipbook edge-to-edge on mobile */
+    .book-container {
+      flex: 1;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px;
+      overflow: hidden;
+      padding: clamp(4px, 1.5vh, 12px);
     }
 
-    #book {
+    #book-wrapper {
       width: 100%;
       height: 100%;
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Styling individual pages */
+    /* Page styling */
     .page {
-      background-color: #ffffff;
-      padding: 24px;
-      border: 1px solid #ddd;
-      overflow: hidden;
+      background-color: #fdfaf7;
+      border: 1px solid #e2ddd5;
+      padding: clamp(12px, 3.5vw, 24px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-    }
-
-    .page-content {
       color: #333;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+      overflow: hidden;
     }
 
-    .page-footer {
+    .page-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .page-header {
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: clamp(4px, 0.8vh, 8px);
+      margin-bottom: clamp(8px, 1.2vh, 14px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .page-header h1 {
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: #2c3e50;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .page-header span {
+      font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+      color: #7f8c8d;
+    }
+
+    /* Articles container */
+    .articles-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.5vh, 14px);
+      flex: 1;
+      min-height: 0;
+    }
+
+    .article {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.8vh, 8px);
+      flex: 1;
+      min-height: 0;
+    }
+
+    .article h2 {
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      color: #1a1a1a;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .article img {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .media-embed {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .article p {
+      font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+      line-height: 1.35;
+      color: #4a4a4a;
+      text-align: justify;
+      flex-shrink: 0;
+    }
+
+    /* Table of Contents */
+    .toc-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .toc-title {
+      margin-bottom: clamp(6px, 1.2vh, 12px);
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      color: #2c3e50;
+      flex-shrink: 0;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 1vh, 10px);
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: clamp(6px, 1.2vh, 12px) clamp(8px, 1.5vw, 14px);
+      background-color: #efeae4;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      font-size: clamp(0.72rem, 1.3vw, 0.88rem);
+      font-weight: 600;
+      color: #2c3e50;
+      flex: 1;
+      max-height: 48px;
+    }
+
+    .toc-item:hover {
+      background-color: #e2ddd5;
+      transform: translateX(3px);
+    }
+
+    .toc-item span.page-num {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: clamp(0.62rem, 1vw, 0.75rem);
+      flex-shrink: 0;
+    }
+
+    .page-footer-num {
       text-align: center;
-      font-size: 12px;
+      font-size: clamp(0.7rem, 1.1vw, 0.8rem);
       color: #888;
+      font-weight: bold;
+      border-top: 1px solid #e2ddd5;
+      padding-top: clamp(4px, 0.8vh, 8px);
+      margin-top: auto;
+      flex-shrink: 0;
     }
 
-    /* Adjust page padding for narrow mobile screens */
-    @media (max-width: 600px) {
-      .flipbook-wrapper {
-        padding: 4px;
-        height: 92vh;
-      }
-      .page {
-        padding: 16px;
-      }
+    /* Footer Navigation Control Bar */
+    footer {
+      height: clamp(44px, 7vh, 55px);
+      background-color: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    footer button {
+      background-color: #3e3e3e;
+      color: #ffffff;
+      border: none;
+      padding: clamp(6px, 1vh, 9px) clamp(14px, 2vw, 20px);
+      font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    footer button:hover {
+      background-color: #575757;
+    }
+
+    footer button:active {
+      transform: scale(0.96);
     }
   </style>
 </head>
 <body>
 
-  <div class="flipbook-wrapper">
-    <div id="book">
-      <!-- Page 1 (Cover) -->
-      <div class="page" data-density="hard">
-        <div class="page-content">
-          <h2>Cover Page</h2>
-          <p>Welcome to the flipbook.</p>
+  <!-- Book Wrapper Container -->
+  <div class="book-container">
+    <div id="book-wrapper">
+      <div id="book">
+        
+        <!-- PAGE 1: CONTENTS (Soft density explicitly set) -->
+        <div class="page" data-density="soft">
+          <div class="page-inner toc-container">
+            <div class="page-header">
+              <h1>Newsletter Digest</h1>
+              <span>Edition #24</span>
+            </div>
+            <h2 class="toc-title">Table of Contents</h2>
+            <ul class="toc-list">
+              <li class="toc-item" data-goto="1">
+                <span>Page 2: Nature & Oceans</span>
+                <span class="page-num">Pg 2</span>
+              </li>
+              <li class="toc-item" data-goto="2">
+                <span>Page 3: Architecture & Forests</span>
+                <span class="page-num">Pg 3</span>
+              </li>
+              <li class="toc-item" data-goto="3">
+                <span>Page 4: Space & Deserts</span>
+                <span class="page-num">Pg 4</span>
+              </li>
+              <li class="toc-item" data-goto="4">
+                <span>Page 5: Technology & Cities</span>
+                <span class="page-num">Pg 5</span>
+              </li>
+              <li class="toc-item" data-goto="5">
+                <span>Page 6: Art & Zen</span>
+                <span class="page-num">Pg 6</span>
+              </li>
+              <li class="toc-item" data-goto="6">
+                <span>Page 7: Polar Ice & Autumn</span>
+                <span class="page-num">Pg 7</span>
+              </li>
+              <li class="toc-item" data-goto="7">
+                <span>Page 8: Literature & Waterfalls</span>
+                <span class="page-num">Pg 8</span>
+              </li>
+            </ul>
+          </div>
+          <div class="page-footer-num">Page 1</div>
         </div>
-        <div class="page-footer">1</div>
-      </div>
 
-      <!-- Page 2 -->
-      <div class="page">
-        <div class="page-content">
-          <h3>Page 2</h3>
-          <p>This page scales dynamically to fill the phone screen.</p>
+        <!-- PAGE 2 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Natural Wonders</h1>
+              <span>Environment</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Majestic Mountain Ranges</h2>
+                <iframe class="media-embed" src="https://www.youtube.com/embed/PyBRJ7u9N4w?si=looSN4Q0ZpxPDMAz" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <div class="article">
+                <h2>2. Whispers of the Ocean</h2>
+                <iframe class="media-embed" src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7460640362915815424?compact=1" allowfullscreen="" title="Embedded post"></iframe>
+                <p>Coastal shorelines serve as dynamic transition zones where terrestrial life meets marine ecosystems.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 2</div>
         </div>
-        <div class="page-footer">2</div>
-      </div>
 
-      <!-- Page 3 -->
-      <div class="page">
-        <div class="page-content">
-          <h3>Page 3</h3>
-          <p>No more fat borders or tiny cards in portrait mode.</p>
+        <!-- PAGE 3 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Spaces & Woods</h1>
+              <span>Design & Ecology</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Modern Architectural Evolution</h2>
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Modern Building" />
+                <p>Contemporary architectural design increasingly prioritizes fluid geometry and eco-conscious engineering.</p>
+              </div>
+              <div class="article">
+                <h2>2. Secrets of the Ancient Forest</h2>
+                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest Trail" />
+                <p>Old-growth forests contain complex subterranean networks formed by mycorrhizal fungi.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 3</div>
         </div>
-        <div class="page-footer">3</div>
-      </div>
 
-      <!-- Page 4 -->
-      <div class="page" data-density="hard">
-        <div class="page-content">
-          <h3>Back Cover</h3>
-          <p>The End.</p>
+        <!-- PAGE 4 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Cosmos & Sands</h1>
+              <span>Discovery</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Journey Across Cosmic Frontiers</h2>
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Deep Space Nebula" />
+                <p>Deep-space observatories continue to capture breathtaking views of distant nebulae where new stars are born.</p>
+              </div>
+              <div class="article">
+                <h2>2. Silent Echoes of the Desert</h2>
+                <img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80" alt="Desert Sand Dunes" />
+                <p>Despite harsh temperatures and minimal rainfall, desert ecosystems support remarkably resilient flora.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 4</div>
         </div>
-        <div class="page-footer">4</div>
+
+        <!-- PAGE 5 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Innovation & Energy</h1>
+              <span>Urban Life</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Next-Gen Urban Skylines</h2>
+                <img src="https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=600&q=80" alt="City Skyline Night" />
+                <p>Metropolitan regions are rapidly integrating smart grid infrastructure to manage energy distribution.</p>
+              </div>
+              <div class="article">
+                <h2>2. Renewable Power Horizons</h2>
+                <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80" alt="Wind Turbines" />
+                <p>Offshore wind farms and advanced solar technology continue to break efficiency records globally.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 5</div>
+        </div>
+
+        <!-- PAGE 6 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Mind & Artistry</h1>
+              <span>Lifestyle</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Minimalist Abstract Design</h2>
+                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=600&q=80" alt="Abstract Art" />
+                <p>Minimalism in contemporary art strips away unnecessary distractions to highlight core forms.</p>
+              </div>
+              <div class="article">
+                <h2>2. The Philosophy of Zen Gardens</h2>
+                <img src="https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=600&q=80" alt="Zen Stone Garden" />
+                <p>Traditional dry landscape gardens utilize raked gravel and strategically placed stones for meditation.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 6</div>
+        </div>
+
+        <!-- PAGE 7 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Seasons & Extremes</h1>
+              <span>Geography</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Polar Glaciers & Icebergs</h2>
+                <img src="https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=600&q=80" alt="Arctic Glacier" />
+                <p>Glacial ice holds roughly 69% of the world's total fresh water across planetary reserves.</p>
+              </div>
+              <div class="article">
+                <h2>2. The Colors of Autumn</h2>
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Autumn Forest Path" />
+                <p>As daylight hours diminish in autumn, deciduous trees expose brilliant pigments across canopy foliage.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 7</div>
+        </div>
+
+        <!-- PAGE 8 -->
+        <div class="page" data-density="soft">
+          <div class="page-inner">
+            <div class="page-header">
+              <h1>Culture & Earth</h1>
+              <span>Heritage</span>
+            </div>
+            <div class="articles-wrapper">
+              <div class="article">
+                <h2>1. Classical Literature</h2>
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80" alt="Vintage Library" />
+                <p>Digital archiving initiatives safeguard rare manuscripts ensuring humanity's literary heritage endures.</p>
+              </div>
+              <div class="article">
+                <h2>2. Cascading Cascades</h2>
+                <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80" alt="Waterfall" />
+                <p>River systems carving through mountain valleys create waterfalls that enrich microclimates for flora.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-footer-num">Page 8</div>
+        </div>
+
       </div>
     </div>
   </div>
 
+  <!-- Navigation Control Bar -->
+  <footer>
+    <button id="btn-prev">Prev</button>
+    <button id="btn-contents">Contents</button>
+    <button id="btn-next">Next</button>
+  </footer>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const pageFlip = new St.PageFlip(document.getElementById("book"), {
-        // Base width and height ratio per single page
-        width: 400,
-        height: 600,
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.getElementById('book-wrapper');
+      const bookElement = document.getElementById('book');
 
-        // KEY SETTINGS FOR MOBILE FLEXIBILITY:
-        size: "stretch",           // Stretches to fill parent container
-        minWidth: 280,             // Lower threshold for narrow phones
-        maxWidth: 1000,            // Upper threshold for large screens
-        minHeight: 400,
-        maxHeight: 1400,
+      // Dynamically calculate page dimensions so single page takes up maximum screen area
+      function calculatePageSize() {
+        const padding = 8;
+        const availWidth = wrapper.clientWidth - padding;
+        const availHeight = wrapper.clientHeight - padding;
+        const isMobile = window.innerWidth <= 768;
 
-        usePortrait: true,         // Allows single-page portrait layout on mobile
-        startZIndex: 0,
-        autoSize: true,            // Adapts wrapper element boundaries
-        maxShadowOpacity: 0.5,
-        showCover: false,           // Treats 1st and last page as covers in single-page mode
-        mobileScrollSupport: true  // Prevents native touch conflicts on mobile
+        // On mobile (single page view), aspect ratio is ~3:4 for 1 page
+        // On desktop (2-page view), aspect ratio is ~3:4 per page (6:4 spread total)
+        const singlePageAspectRatio = 3 / 4; 
+
+        if (isMobile) {
+          let pageHeight = availHeight;
+          let pageWidth = pageHeight * singlePageAspectRatio;
+
+          if (pageWidth > availWidth) {
+            pageWidth = availWidth;
+            pageHeight = pageWidth / singlePageAspectRatio;
+          }
+
+          return {
+            width: Math.floor(pageWidth),
+            height: Math.floor(pageHeight)
+          };
+        } else {
+          let pageHeight = availHeight;
+          let pageWidth = pageHeight * singlePageAspectRatio;
+
+          if (pageWidth * 2 > availWidth) {
+            pageWidth = availWidth / 2;
+            pageHeight = pageWidth / singlePageAspectRatio;
+          }
+
+          return {
+            width: Math.floor(pageWidth),
+            height: Math.floor(pageHeight)
+          };
+        }
+      }
+
+      const initialDimensions = calculatePageSize();
+
+      // Initialize StPageFlip
+      const pageFlip = new St.PageFlip(bookElement, {
+        width: initialDimensions.width,
+        height: initialDimensions.height,
+        size: 'fixed',
+        showCover: false,      // Prevents automatically forcing hard covers in single page mode
+        usePortrait: true,     // Enables single page layout on portrait mobile screens
+        drawShadow: true,
+        maxShadowOpacity: 0.4,
+        useMouseEvents: true,
+        mobileScrollSupport: false
       });
 
-      // Load all .page HTML blocks into the flipbook
-      pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+      pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+      // Re-calculate & scale dynamically on window resize or orientation change
+      function handleResize() {
+        const { width, height } = calculatePageSize();
+        pageFlip.update({ width, height });
+        pageFlip.updateFromHtml(document.querySelectorAll('.page'));
+      }
+
+      window.addEventListener('resize', handleResize);
+
+      // Controls
+      document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
+      document.getElementById('btn-next').addEventListener('click', () => pageFlip.flipNext());
+      document.getElementById('btn-contents').addEventListener('click', () => pageFlip.flip(0));
+
+      // Table of Contents navigation
+      const tocItems = document.querySelectorAll('.toc-item');
+      tocItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const pageIndex = parseInt(item.getAttribute('data-goto'), 10);
+          pageFlip.flip(pageIndex);
+        });
+      });
     });
   </script>
 </body>
