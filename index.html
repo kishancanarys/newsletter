@@ -1,543 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <!-- Prevents browser viewport zoom glitches on mobile devices -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>8-Page Mobile Flipbook</title>
-  
-  <!-- StPageFlip CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<title>Newsletter Flipbook</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 
-    body {
-      width: 100vw;
-      height: 100vh;
-      background-color: #2b2b2b;
-      display: flex;
-      flex-direction: column;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow: hidden;
-    }
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    /* Container for scaling the flipbook edge-to-edge on mobile */
-    .book-container {
-      flex: 1;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      padding: clamp(4px, 1.5vh, 12px);
-    }
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Montserrat', Inter, Arial, sans-serif;
+    background: #1e1e24;
+  }
 
-    #book-wrapper {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .app {
+    width: 100vw;
+    height: 100vh;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    /* Page styling */
-    .page {
-      background-color: #fdfaf7;
-      border: 1px solid #e2ddd5;
-      padding: clamp(12px, 3.5vw, 24px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      color: #333;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
+  .newsletter-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .page-inner {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-    }
+  #book {
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border-radius: 6px;
+    overflow: hidden;
+  }
 
-    .page-header {
-      border-bottom: 2px solid #2c3e50;
-      padding-bottom: clamp(4px, 0.8vh, 8px);
-      margin-bottom: clamp(8px, 1.2vh, 14px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
+  /* Base Page Class for St.PageFlip */
+  .page {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
 
-    .page-header h1 {
-      font-size: clamp(0.85rem, 2vw, 1.1rem);
-      color: #2c3e50;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  /* Grid Page Layout (Used for Pages 2, 3, 4) */
+  .page-grid {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+  }
 
-    .page-header span {
-      font-size: clamp(0.65rem, 1.2vw, 0.75rem);
-      color: #7f8c8d;
-    }
+  /* Cover Page Layout (Used for Page 1) */
+  .page-cover {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
 
-    /* Articles container */
-    .articles-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(8px, 1.5vh, 14px);
-      flex: 1;
-      min-height: 0;
-    }
+  /* --- COVER PAGE STYLES --- */
+  .c-nl-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-bottom: 12px;
+  }
 
-    .article {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(4px, 0.8vh, 8px);
-      flex: 1;
-      min-height: 0;
-    }
+  .c-nl-header {
+    text-align: center;
+    padding: 15px 10px 5px 10px;
+    flex-shrink: 0;
+  }
 
-    .article h2 {
-      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
-      color: #1a1a1a;
-      line-height: 1.2;
-      flex-shrink: 0;
-    }
+  .c-nl-logo-container {
+    margin-bottom: 8px;
+  }
 
-    .article img {
-      width: 100%;
-      flex: 1;
-      min-height: 0;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
+  .c-nl-logo-img {
+    max-width: 140px;
+    height: auto;
+  }
 
-    .media-embed {
-      width: 100%;
-      flex: 1;
-      min-height: 0;
-      border: none;
-      border-radius: 4px;
-    }
+  .c-nl-title-container {
+    margin-bottom: 5px;
+  }
 
-    .article p {
-      font-size: clamp(0.7rem, 1.2vw, 0.8rem);
-      line-height: 1.35;
-      color: #4a4a4a;
-      text-align: justify;
-      flex-shrink: 0;
-    }
+  .c-nl-title-namma {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #2bb0c4;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    line-height: 0.85;
+  }
 
-    /* Table of Contents */
-    .toc-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
+  .c-nl-title-newsletter {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 0.9;
+    font-family: 'Playfair Display', serif;
+  }
 
-    .toc-title {
-      margin-bottom: clamp(6px, 1.2vh, 12px);
-      font-size: clamp(0.95rem, 2vw, 1.2rem);
-      color: #2c3e50;
-      flex-shrink: 0;
-    }
+  .c-nl-banner {
+    background-color: #f1b238;
+    color: #000000;
+    text-align: center;
+    padding: 6px 5px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
 
-    .toc-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(4px, 1vh, 10px);
-      flex: 1;
-      justify-content: space-between;
-    }
+  .c-nl-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    padding: 0 12px;
+    flex-grow: 1;
+  }
 
-    .toc-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: clamp(6px, 1.2vh, 12px) clamp(8px, 1.5vw, 14px);
-      background-color: #efeae4;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.1s ease;
-      font-size: clamp(0.72rem, 1.3vw, 0.88rem);
-      font-weight: 600;
-      color: #2c3e50;
-      flex: 1;
-      max-height: 48px;
-    }
+  .c-nl-card {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
 
-    .toc-item:hover {
-      background-color: #e2ddd5;
-      transform: translateX(3px);
-    }
+  .c-nl-card-1 {
+    background-image: url('https://images.unsplash.com/photo-1511b90000000-placeholder?auto=format&fit=crop&w=400&q=80');
+    border-bottom: 4px solid #2bb0c4;
+  }
 
-    .toc-item span.page-num {
-      background-color: #2c3e50;
-      color: #fff;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-size: clamp(0.62rem, 1vw, 0.75rem);
-      flex-shrink: 0;
-    }
+  .c-nl-card-2 {
+    background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80');
+    border-bottom: 4px solid #8b5cf6;
+  }
 
-    .page-footer-num {
-      text-align: center;
-      font-size: clamp(0.7rem, 1.1vw, 0.8rem);
-      color: #888;
-      font-weight: bold;
-      border-top: 1px solid #e2ddd5;
-      padding-top: clamp(4px, 0.8vh, 8px);
-      margin-top: auto;
-      flex-shrink: 0;
-    }
+  .c-nl-card-3 {
+    background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80');
+    border-bottom: 4px solid #e11d48;
+  }
 
-    /* Footer Navigation Control Bar */
-    footer {
-      height: clamp(44px, 7vh, 55px);
-      background-color: #1a1a1a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
-      z-index: 10;
-      flex-shrink: 0;
-    }
+  .c-nl-card-4 {
+    background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80');
+    border-bottom: 4px solid #0891b2;
+  }
 
-    footer button {
-      background-color: #3e3e3e;
-      color: #ffffff;
-      border: none;
-      padding: clamp(6px, 1vh, 9px) clamp(14px, 2vw, 20px);
-      font-size: clamp(0.8rem, 1.2vw, 0.92rem);
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.1s ease;
-    }
+  .c-nl-card-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0) 100%);
+    padding: 8px;
+    width: 100%;
+  }
 
-    footer button:hover {
-      background-color: #575757;
-    }
+  .c-nl-card-title {
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
 
-    footer button:active {
-      transform: scale(0.96);
-    }
-  </style>
+  .c-nl-btn {
+    display: inline-block;
+    background-color: #f1b238;
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.55rem;
+    padding: 3px 6px;
+    border-radius: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  /* --- STANDARD CARD STYLES --- */
+  .card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 45%;
+    flex-shrink: 0;
+    background: #e2e8f0;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-content {
+    height: 55%;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+  }
+
+  .category {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: #e0e7ff;
+    color: #4338ca;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .card h2 {
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .card p {
+    font-size: 9px;
+    line-height: 1.2;
+    color: #64748b;
+  }
+</style>
 </head>
+
 <body>
 
-  <!-- Book Wrapper Container -->
-  <div class="book-container">
-    <div id="book-wrapper">
-      <div id="book">
-        
-        <!-- PAGE 1: CONTENTS (Soft density explicitly set) -->
-        <div class="page" data-density="soft">
-          <div class="page-inner toc-container">
-            <div class="page-header">
-              <h1>Newsletter Digest</h1>
-              <span>Edition #24</span>
+<div class="app">
+  <div class="newsletter-container">
+    <div id="book">
+      
+      <!-- PAGE 1: COVER PAGE -->
+      <div class="page page-cover">
+        <div class="c-nl-wrapper">
+          <header class="c-nl-header">
+            <div class="c-nl-logo-container">
+              <img src="https://via.placeholder.com/240x60/ffffff/004080?text=Canarys" alt="Canarys Logo" class="c-nl-logo-img">
             </div>
-            <h2 class="toc-title">Table of Contents</h2>
-            <ul class="toc-list">
-              <li class="toc-item" data-goto="1">
-                <span>Page 2: Nature & Oceans</span>
-                <span class="page-num">Pg 2</span>
-              </li>
-              <li class="toc-item" data-goto="2">
-                <span>Page 3: Architecture & Forests</span>
-                <span class="page-num">Pg 3</span>
-              </li>
-              <li class="toc-item" data-goto="3">
-                <span>Page 4: Space & Deserts</span>
-                <span class="page-num">Pg 4</span>
-              </li>
-              <li class="toc-item" data-goto="4">
-                <span>Page 5: Technology & Cities</span>
-                <span class="page-num">Pg 5</span>
-              </li>
-              <li class="toc-item" data-goto="5">
-                <span>Page 6: Art & Zen</span>
-                <span class="page-num">Pg 6</span>
-              </li>
-              <li class="toc-item" data-goto="6">
-                <span>Page 7: Polar Ice & Autumn</span>
-                <span class="page-num">Pg 7</span>
-              </li>
-              <li class="toc-item" data-goto="7">
-                <span>Page 8: Literature & Waterfalls</span>
-                <span class="page-num">Pg 8</span>
-              </li>
-            </ul>
-          </div>
-          <div class="page-footer-num">Page 1</div>
-        </div>
+            <div class="c-nl-title-container">
+              <h1 class="c-nl-title-namma">NAMMA</h1>
+              <h2 class="c-nl-title-newsletter">NEWSLETTER</h2>
+            </div>
+          </header>
 
-        <!-- PAGE 2 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Natural Wonders</h1>
-              <span>Environment</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Majestic Mountain Ranges</h2>
-                <iframe class="media-embed" src="https://www.youtube.com/embed/PyBRJ7u9N4w?si=looSN4Q0ZpxPDMAz" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              </div>
-              <div class="article">
-                <h2>2. Whispers of the Ocean</h2>
-                <iframe class="media-embed" src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7460640362915815424?compact=1" allowfullscreen="" title="Embedded post"></iframe>
-                <p>Coastal shorelines serve as dynamic transition zones where terrestrial life meets marine ecosystems.</p>
-              </div>
-            </div>
+          <div class="c-nl-banner">
+            EDITION 2 &bull; ISSUE 21 &bull; JULY 2026
           </div>
-          <div class="page-footer-num">Page 2</div>
-        </div>
 
-        <!-- PAGE 3 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Spaces & Woods</h1>
-              <span>Design & Ecology</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Modern Architectural Evolution</h2>
-                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Modern Building" />
-                <p>Contemporary architectural design increasingly prioritizes fluid geometry and eco-conscious engineering.</p>
-              </div>
-              <div class="article">
-                <h2>2. Secrets of the Ancient Forest</h2>
-                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest Trail" />
-                <p>Old-growth forests contain complex subterranean networks formed by mycorrhizal fungi.</p>
+          <section class="c-nl-grid">
+            <div class="c-nl-card c-nl-card-1">
+              <div class="c-nl-card-overlay">
+                <h3 class="c-nl-card-title">Company &amp; Business</h3>
+                <a href="#" class="c-nl-btn">LEARN MORE</a>
               </div>
             </div>
-          </div>
-          <div class="page-footer-num">Page 3</div>
-        </div>
 
-        <!-- PAGE 4 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Cosmos & Sands</h1>
-              <span>Discovery</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Journey Across Cosmic Frontiers</h2>
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Deep Space Nebula" />
-                <p>Deep-space observatories continue to capture breathtaking views of distant nebulae where new stars are born.</p>
-              </div>
-              <div class="article">
-                <h2>2. Silent Echoes of the Desert</h2>
-                <img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80" alt="Desert Sand Dunes" />
-                <p>Despite harsh temperatures and minimal rainfall, desert ecosystems support remarkably resilient flora.</p>
+            <div class="c-nl-card c-nl-card-2">
+              <div class="c-nl-card-overlay">
+                <h3 class="c-nl-card-title">Innovation &amp; Technology</h3>
+                <a href="#" class="c-nl-btn">LEARN MORE</a>
               </div>
             </div>
-          </div>
-          <div class="page-footer-num">Page 4</div>
-        </div>
 
-        <!-- PAGE 5 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Innovation & Energy</h1>
-              <span>Urban Life</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Next-Gen Urban Skylines</h2>
-                <img src="https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=600&q=80" alt="City Skyline Night" />
-                <p>Metropolitan regions are rapidly integrating smart grid infrastructure to manage energy distribution.</p>
-              </div>
-              <div class="article">
-                <h2>2. Renewable Power Horizons</h2>
-                <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=600&q=80" alt="Wind Turbines" />
-                <p>Offshore wind farms and advanced solar technology continue to break efficiency records globally.</p>
+            <div class="c-nl-card c-nl-card-3">
+              <div class="c-nl-card-overlay">
+                <h3 class="c-nl-card-title">Namma People</h3>
+                <a href="#" class="c-nl-btn">LEARN MORE</a>
               </div>
             </div>
-          </div>
-          <div class="page-footer-num">Page 5</div>
-        </div>
 
-        <!-- PAGE 6 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Mind & Artistry</h1>
-              <span>Lifestyle</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Minimalist Abstract Design</h2>
-                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=600&q=80" alt="Abstract Art" />
-                <p>Minimalism in contemporary art strips away unnecessary distractions to highlight core forms.</p>
-              </div>
-              <div class="article">
-                <h2>2. The Philosophy of Zen Gardens</h2>
-                <img src="https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=600&q=80" alt="Zen Stone Garden" />
-                <p>Traditional dry landscape gardens utilize raked gravel and strategically placed stones for meditation.</p>
+            <div class="c-nl-card c-nl-card-4">
+              <div class="c-nl-card-overlay">
+                <h3 class="c-nl-card-title">Culture &amp; Community</h3>
+                <a href="#" class="c-nl-btn">LEARN MORE</a>
               </div>
             </div>
-          </div>
-          <div class="page-footer-num">Page 6</div>
+          </section>
         </div>
-
-        <!-- PAGE 7 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Seasons & Extremes</h1>
-              <span>Geography</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Polar Glaciers & Icebergs</h2>
-                <img src="https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=600&q=80" alt="Arctic Glacier" />
-                <p>Glacial ice holds roughly 69% of the world's total fresh water across planetary reserves.</p>
-              </div>
-              <div class="article">
-                <h2>2. The Colors of Autumn</h2>
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Autumn Forest Path" />
-                <p>As daylight hours diminish in autumn, deciduous trees expose brilliant pigments across canopy foliage.</p>
-              </div>
-            </div>
-          </div>
-          <div class="page-footer-num">Page 7</div>
-        </div>
-
-        <!-- PAGE 8 -->
-        <div class="page" data-density="soft">
-          <div class="page-inner">
-            <div class="page-header">
-              <h1>Culture & Earth</h1>
-              <span>Heritage</span>
-            </div>
-            <div class="articles-wrapper">
-              <div class="article">
-                <h2>1. Classical Literature</h2>
-                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80" alt="Vintage Library" />
-                <p>Digital archiving initiatives safeguard rare manuscripts ensuring humanity's literary heritage endures.</p>
-              </div>
-              <div class="article">
-                <h2>2. Cascading Cascades</h2>
-                <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80" alt="Waterfall" />
-                <p>River systems carving through mountain valleys create waterfalls that enrich microclimates for flora.</p>
-              </div>
-            </div>
-          </div>
-          <div class="page-footer-num">Page 8</div>
-        </div>
-
       </div>
+
+      <!-- PAGE 2: ARTICLE SPREAD -->
+      <div class="page page-grid">
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Strategy">
+          </div>
+          <div class="card-content">
+            <span class="category">Strategy</span>
+            <h2>Product Roadmap</h2>
+            <p>Our vision for AI-driven automation workflows and integrated delivery.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80" alt="Meeting">
+          </div>
+          <div class="card-content">
+            <span class="category">Partnership</span>
+            <h2>Global Reach</h2>
+            <p>New enterprise client alliances established across European territories.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="DevOps">
+          </div>
+          <div class="card-content">
+            <span class="category">DevOps</span>
+            <h2>CI/CD Security</h2>
+            <p>Implementing automated static analysis in production release builds.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1542744094-3a31b272c490?auto=format&fit=crop&w=600&q=80" alt="Summit">
+          </div>
+          <div class="card-content">
+            <span class="category">Events</span>
+            <h2>Annual Tech Summit</h2>
+            <p>Key highlights and announcements from our flagship conference.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- PAGE 3 -->
+      <div class="page page-grid">
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Team">
+          </div>
+          <div class="card-content">
+            <span class="category">Page 3</span>
+            <h2>Sample Article 1</h2>
+            <p>Content for third page slot 1.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Data">
+          </div>
+          <div class="card-content">
+            <span class="category">Page 3</span>
+            <h2>Sample Article 2</h2>
+            <p>Content for third page slot 2.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80" alt="Design">
+          </div>
+          <div class="card-content">
+            <span class="category">Page 3</span>
+            <h2>Sample Article 3</h2>
+            <p>Content for third page slot 3.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Code">
+          </div>
+          <div class="card-content">
+            <span class="category">Page 3</span>
+            <h2>Sample Article 4</h2>
+            <p>Content for third page slot 4.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- PAGE 4 -->
+      <div class="page page-grid">
+        <article class="card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Strategy">
+          </div>
+          <div class="card-content">
+            <span class="category">Page 4</span>
+            <h2>Back Cover</h2>
+            <p>Final summary and links.</p>
+          </div>
+        </article>
+      </div>
+
     </div>
   </div>
+</div>
 
-  <!-- Navigation Control Bar -->
-  <footer>
-    <button id="btn-prev">Prev</button>
-    <button id="btn-contents">Contents</button>
-    <button id="btn-next">Next</button>
-  </footer>
+<script>
+let pageFlip = null;
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const wrapper = document.getElementById('book-wrapper');
-      const bookElement = document.getElementById('book');
+function renderBook() {
+  const container = document.querySelector('.newsletter-container');
+  
+  const maxAvailableHeight = container.clientHeight - 32;
+  const maxAvailableWidth = container.clientWidth - 32;
 
-      // Dynamically calculate page dimensions so single page takes up maximum screen area
-      function calculatePageSize() {
-        const padding = 8;
-        const availWidth = wrapper.clientWidth - padding;
-        const availHeight = wrapper.clientHeight - padding;
-        const isMobile = window.innerWidth <= 768;
+  // Aspect ratio per single page (A4 proportion roughly 0.7)
+  const pageRatio = 0.7; 
 
-        // On mobile (single page view), aspect ratio is ~3:4 for 1 page
-        // On desktop (2-page view), aspect ratio is ~3:4 per page (6:4 spread total)
-        const singlePageAspectRatio = 3 / 4; 
+  let calcHeight = maxAvailableHeight;
+  let calcWidth = calcHeight * pageRatio;
 
-        if (isMobile) {
-          let pageHeight = availHeight;
-          let pageWidth = pageHeight * singlePageAspectRatio;
+  if (calcWidth * 2 > maxAvailableWidth) {
+    calcWidth = maxAvailableWidth / 2;
+    calcHeight = calcWidth / pageRatio;
+  }
 
-          if (pageWidth > availWidth) {
-            pageWidth = availWidth;
-            pageHeight = pageWidth / singlePageAspectRatio;
-          }
+  if (pageFlip) {
+    pageFlip.destroy();
+  }
 
-          return {
-            width: Math.floor(pageWidth),
-            height: Math.floor(pageHeight)
-          };
-        } else {
-          let pageHeight = availHeight;
-          let pageWidth = pageHeight * singlePageAspectRatio;
+  pageFlip = new St.PageFlip(
+    document.getElementById("book"),
+    {
+      width: Math.floor(calcWidth),
+      height: Math.floor(calcHeight),
+      size: "fixed",
+      showCover: false,
+      usePortrait: false,
+      maxShadowOpacity: 0.2,
+      mobileScrollSupport: false
+    }
+  );
 
-          if (pageWidth * 2 > availWidth) {
-            pageWidth = availWidth / 2;
-            pageHeight = pageWidth / singlePageAspectRatio;
-          }
+  pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+}
 
-          return {
-            width: Math.floor(pageWidth),
-            height: Math.floor(pageHeight)
-          };
-        }
-      }
+window.addEventListener('DOMContentLoaded', renderBook);
 
-      const initialDimensions = calculatePageSize();
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderBook, 200);
+});
+</script>
 
-      // Initialize StPageFlip
-      const pageFlip = new St.PageFlip(bookElement, {
-        width: initialDimensions.width,
-        height: initialDimensions.height,
-        size: 'fixed',
-        showCover: false,      // Prevents automatically forcing hard covers in single page mode
-        usePortrait: true,     // Enables single page layout on portrait mobile screens
-        drawShadow: true,
-        maxShadowOpacity: 0.4,
-        useMouseEvents: true,
-        mobileScrollSupport: false
-      });
-
-      pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-      // Re-calculate & scale dynamically on window resize or orientation change
-      function handleResize() {
-        const { width, height } = calculatePageSize();
-        pageFlip.update({ width, height });
-        pageFlip.updateFromHtml(document.querySelectorAll('.page'));
-      }
-
-      window.addEventListener('resize', handleResize);
-
-      // Controls
-      document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
-      document.getElementById('btn-next').addEventListener('click', () => pageFlip.flipNext());
-      document.getElementById('btn-contents').addEventListener('click', () => pageFlip.flip(0));
-
-      // Table of Contents navigation
-      const tocItems = document.querySelectorAll('.toc-item');
-      tocItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const pageIndex = parseInt(item.getAttribute('data-goto'), 10);
-          pageFlip.flip(pageIndex);
-        });
-      });
-    });
-  </script>
 </body>
 </html>
