@@ -19,6 +19,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-left: 5px;
+      padding-right: 5px;
     }
 
     /* Container for the flipbook wrapper */
@@ -52,28 +54,647 @@
   <div id="flipbook-wrapper">
     <div id="magazine">
       <!-- Page 1 (Soft Cover) -->
-      <div class="page">
-        <div class="page-content">
-          <h1>TECH MONTHLY</h1>
-          <p>Issue #42 — Soft Cover Edition</p>
+      
+      <div class="page" style="
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1.414;
+  box-sizing: border-box;
+  padding: 3.5cqh 3.5cqw 1cqh 3.5cqw;
+  background-color: #ffffff;
+  color: #111111;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+">
+
+  <!-- HEADER -->
+  <header style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #222222;
+    padding-bottom: 1.5cqh;
+  ">
+    <!-- Top-Left Title Banner Placeholder -->
+    <div style="height: 6cqh; display: flex; align-items: center;">
+      <img src="nammanewsletter.png" alt="Namma Newsletter Title" style="
+        height: 100%;
+        max-width: 50cqw;
+        object-fit: contain;
+        object-position: left center;
+        display: block;
+      " />
+    </div>
+    
+    <!-- Top-Right Logo Placeholder -->
+    <div style="height: 5cqh; display: flex; align-items: center;">
+      <img src="canlogo.png" alt="Canarys Logo" style="
+        height: 100%;
+        max-width: 30cqw;
+        object-fit: contain;
+        object-position: right center;
+        display: block;
+      " />
+    </div>
+  </header>
+
+  <!-- MAIN NEWSLETTER GRID -->
+  <main style="
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2cqh;
+    flex: 1;
+    margin-top: 2cqh;
+    margin-bottom: 1.5cqh;
+    min-height: 0;
+  ">
+
+    <!-- LEFT COLUMN -->
+    <div style="display: flex; flex-direction: column; gap: 2cqh; justify-content: space-between; min-height: 0;">
+      
+      <!-- Top Feature Article -->
+      <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+        <img src="githubcover.jpg" alt="Main Event" style="
+          width: 100%;
+          height: 33cqh;
+          object-fit: cover;
+          border-radius: 2px;
+          display: block;
+        " />
+        <div style="padding: 1.5cqh 0.5cqw 0 0.5cqw;">
+          <h2 style="font-family: 'Outfit', sans-serif; font-size: 2.7cqh; font-weight: 600; margin: 0 0 1cqh 0; color: #000000; line-height: 1.2;">
+            A Year of Global Recognition
+          </h2>
+          <p style="font-family: 'Outfit', sans-serif; font-size: 1.7cqh; color: #333333; margin: 0; line-height: 1.4; font-weight: 400;">
+            Canarys' GitHub Partner of the Year 2025 recognition continued to receive national media attention, highlighting innovation, engineering excellence and customer success
+          </p>
         </div>
       </div>
+
+      <!-- Innovation & Technology Card (Purple Accent) -->
+      <div style="
+        position: relative;
+        height: 22cqh;
+        border-radius: 2px;
+        overflow: hidden;
+        border-bottom: 4px solid #7e22ce;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      ">
+        <img src="innovation.jpg" alt="Innovation & Technology" style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+        " />
+        <div style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+          z-index: 2;
+        "></div>
+        <div style="position: relative; z-index: 3; padding: 1.5cqh 1cqw;">
+          <h3 style="font-family: 'Outfit', sans-serif; color: #ffffff; font-size: 2.2cqh; font-weight: 600; margin: 0 0 0.8cqh 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+            Innovation & Technology
+          </h3>
+          <span style="
+            font-family: 'Outfit', sans-serif; display: inline-block; background-color: #f59e0b; color: #000000;
+            font-size: 1.2cqh; font-weight: 800; padding: 0.5cqh 1.2cqw; border-radius: 1px; letter-spacing: 0.05em;
+          ">LEARN MORE</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN (3 Stacked Image Cards) -->
+    <div style="display: flex; flex-direction: column; gap: 2cqh; justify-content: space-between; min-height: 0;">
+
+      <!-- Company & Business Card (Green Accent) -->
+      <div style="
+        position: relative;
+        flex: 1;
+        border-radius: 2px;
+        overflow: hidden;
+        border-bottom: 4px solid #22c55e;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      ">
+        <img src="company.jpg" alt="Company & Business" style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+        " />
+        <div style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+          z-index: 2;
+        "></div>
+        <div style="position: relative; z-index: 3; padding: 1.5cqh 1cqw;">
+          <h3 style="font-family: 'Outfit', sans-serif; color: #ffffff; font-size: 2.1cqh; font-weight: 600; margin: 0 0 0.8cqh 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+            Company & Business
+          </h3>
+          <span style="
+            font-family: 'Outfit', sans-serif; display: inline-block; background-color: #f59e0b; color: #000000;
+            font-size: 1.2cqh; font-weight: 800; padding: 0.5cqh 1.2cqw; border-radius: 1px; letter-spacing: 0.05em;
+          ">LEARN MORE</span>
+        </div>
+      </div>
+
+      <!-- Namma People Card (Pink Accent) -->
+      <div style="
+        position: relative;
+        flex: 1;
+        border-radius: 2px;
+        overflow: hidden;
+        border-bottom: 4px solid #ec4899;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      ">
+        <img src="people.JPG" alt="Namma People" style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+        " />
+        <div style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+          z-index: 2;
+        "></div>
+        <div style="position: relative; z-index: 3; padding: 1.5cqh 1cqw;">
+          <h3 style="font-family: 'Outfit', sans-serif; color: #ffffff; font-size: 2.1cqh; font-weight: 600; margin: 0 0 0.8cqh 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+            Namma People
+          </h3>
+          <span style="
+            font-family: 'Outfit', sans-serif; display: inline-block; background-color: #f59e0b; color: #000000;
+            font-size: 1.2cqh; font-weight: 800; padding: 0.5cqh 1.2cqw; border-radius: 1px; letter-spacing: 0.05em;
+          ">LEARN MORE</span>
+        </div>
+      </div>
+
+      <!-- Culture & Community Card (Teal Accent) -->
+      <div style="
+        position: relative;
+        flex: 1;
+        border-radius: 2px;
+        overflow: hidden;
+        border-bottom: 4px solid #06b6d4;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      ">
+        <img src="culture.jpg" alt="Culture & Community" style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+        " />
+        <div style="
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+          z-index: 2;
+        "></div>
+        <div style="position: relative; z-index: 3; padding: 1.5cqh 1cqw;">
+          <h3 style="font-family: 'Outfit', sans-serif; color: #ffffff; font-size: 2.1cqh; font-weight: 600; margin: 0 0 0.8cqh 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+            Culture & Community
+          </h3>
+          <span style="
+            font-family: 'Outfit', sans-serif; display: inline-block; background-color: #f59e0b; color: #000000;
+            font-size: 1.2cqh; font-weight: 800; padding: 0.5cqh 1.2cqw; border-radius: 1px; letter-spacing: 0.05em;
+          ">LEARN MORE</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1cqh;
+    font-size: 1.6cqh;
+    font-weight: 500;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+  ">
+    <span>Canarys Newsletter</span>
+    <span>Page 01</span>
+  </footer>
+
+</div>
 
       <!-- Page 2 -->
-      <div class="page">
-        <div class="page-content">
-          <h2>Editor's Note</h2>
-          <p>This layout dynamically scales to fill the screen on any device.</p>
+      
+      <div class="page" style="
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1.414;
+  box-sizing: border-box;
+  padding: 3.5cqh 3.5cqw 1cqh 3.5cqw;
+  background-color: #ffffff;
+  color: #111111;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow: hidden;
+">
+
+  <!-- FIXED HEADER -->
+  <header style="
+    position: absolute;
+    top: 3.5cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    height: 6cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #222222;
+    box-sizing: border-box;
+  ">
+    <!-- Section Title -->
+    <div style="display: flex; align-items: center; gap: 1cqw;">
+      <span style="font-family: 'Outfit', sans-serif; font-size: 3cqh; font-weight: 600; color: #008ba3; text-transform: uppercase; letter-spacing: 0.05em;">Leadership Perspective</span>
+    </div>
+    
+    <!-- Top-Right Logo Placeholder -->
+    <div style="height: 4.5cqh; display: flex; align-items: center;">
+      <img src="https://via.placeholder.com/160x60?text=Logo+Image" alt="Canarys Logo" style="
+        height: 100%;
+        max-width: 30cqw;
+        object-fit: contain;
+        object-position: right center;
+        display: block;
+      " />
+    </div>
+  </header>
+
+  <!-- ANCHORED MAIN CONTENT CANVAS -->
+  <main style="
+    position: absolute;
+    top: 11.5cqh;
+    bottom: 7cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 3cqw;
+    overflow: hidden;
+  ">
+
+    <!-- LEFT COLUMN: Profile & Bio -->
+    <div style="
+      display: flex;
+      flex-direction: column;
+      gap: 1.5cqh;
+      background-color: #f8fafc;
+      padding: 2cqh 1.5cqw;
+      border-radius: 4px;
+      border-left: 4px solid #008ba3;
+      box-sizing: border-box;
+    ">
+      <img src="https://picsum.photos/id/1005/400/500" alt="Leadership Portrait" style="
+        width: 100%;
+        height: 30cqh;
+        object-fit: cover;
+        border-radius: 2px;
+        display: block;
+      " />
+      
+      <div>
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 2.4cqh; font-weight: 600; color: #0f172a; margin: 0 0 0.4cqh 0;">
+          Executive Name
+        </h3>
+        <p style="font-family: 'Outfit', sans-serif; font-size: 1.6cqh; font-weight: 600; color: #008ba3; margin: 0 0 1.5cqh 0;">
+          Designation / Title Here
+        </p>
+        <p style="font-family: 'Outfit', sans-serif; font-size: 1.45cqh; font-weight: 400; color: #64748b; line-height: 1.45; margin: 0;">
+          Leading strategic vision, innovation, and global customer transformation at Canarys.
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Write-up & Signature -->
+    <div style="display: flex; flex-direction: column; box-sizing: border-box;">
+      
+      <h1 style="font-family: 'Outfit', sans-serif; font-size: 3.3cqh; font-weight: 600; color: #0f172a; margin: 0 0 1.5cqh 0; line-height: 1.15;">
+        Accelerating Our Growth & Innovation Momentum
+      </h1>
+
+      <p style="font-family: 'Outfit', sans-serif; font-size: 1.6cqh; font-weight: 400; color: #334155; line-height: 1.5; margin: 0 0 1.2cqh 0;">
+        Dear Team & Partners,
+      </p>
+
+      <p style="font-family: 'Outfit', sans-serif; font-size: 1.55cqh; font-weight: 400; color: #334155; line-height: 1.5; margin: 0 0 1.2cqh 0;">
+        As we move into this quarter, I want to take a moment to reflect on our collective achievements and the exciting path ahead. Our commitment to engineering excellence and customer-first solutions continues to yield national media recognition and industry milestones.
+      </p>
+
+      <!-- Featured Pull Quote -->
+      <blockquote style="
+        margin: 1.8cqh 0;
+        padding: 1.2cqh 1.2cqw;
+        background-color: #f1f5f9;
+        border-left: 3px solid #0284c7;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.7cqh;
+        font-weight: 600;
+        color: #0369a1;
+        line-height: 1.4;
+      ">
+        "Innovation isn't just about adapting to change—it's about setting the standard for what's next."
+      </blockquote>
+
+      <p style="font-family: 'Outfit', sans-serif; font-size: 1.55cqh; font-weight: 400; color: #334155; line-height: 1.5; margin: 0 0 2.5cqh 0;">
+        We are doubling down on our key strategic pillars: empowering our people, deepening enterprise partnerships, and delivering cutting-edge AI technology solutions. Thank you for your dedication and passion.
+      </p>
+
+      <!-- Signature Section -->
+      <div style="
+        padding-top: 1.5cqh;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      ">
+        <div>
+          <p style="font-family: 'Outfit', sans-serif; font-size: 1.4cqh; font-weight: 600; color: #0f172a; margin: 0;">Warm regards,</p>
+          <p style="font-family: 'Outfit', sans-serif; font-size: 1.8cqh; font-weight: 600; color: #008ba3; margin: 0.3cqh 0 0 0;">Executive Name</p>
         </div>
+
+        <img src="https://via.placeholder.com/140x40?text=Signature" alt="Signature" style="
+          height: 3.5cqh;
+          object-fit: contain;
+        " />
       </div>
 
+    </div>
+
+  </main>
+
+  <!-- FIXED FOOTER -->
+  <footer style="
+    position: absolute;
+    bottom: 1.5cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    height: 3.5cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6cqh;
+    font-weight: 400;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    box-sizing: border-box;
+  ">
+    <span>Canarys Newsletter</span>
+    <span>Page 02</span>
+  </footer>
+
+</div>
+
+
       <!-- Page 3 -->
-      <div class="page">
-        <div class="page-content">
-          <h2>Feature Article</h2>
-          <p>On mobile displays, it automatically renders as a single page view.</p>
-        </div>
+      <div class="page" style="
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1.414;
+  box-sizing: border-box;
+  padding: 3.5cqh 3.5cqw 1cqh 3.5cqw;
+  background-color: #ffffff;
+  color: #111111;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow: hidden;
+">
+
+  <!-- FIXED HEADER -->
+  <header style="
+    position: absolute;
+    top: 3.5cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    height: 6cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #222222;
+    box-sizing: border-box;
+  ">
+    <!-- Section Title -->
+    <div style="display: flex; align-items: center; gap: 1cqw;">
+      <span style="font-family: 'Outfit', sans-serif; font-size: 3cqh; font-weight: 600; color: #16a34a; text-transform: uppercase; letter-spacing: 0.05em;">Business Growth</span>
+    </div>
+    
+    <!-- Top-Right Logo Placeholder -->
+    <div style="height: 4.5cqh; display: flex; align-items: center;">
+      <img src="https://via.placeholder.com/160x60?text=Logo+Image" alt="Canarys Logo" style="
+        height: 100%;
+        max-width: 30cqw;
+        object-fit: contain;
+        object-position: right center;
+        display: block;
+      " />
+    </div>
+  </header>
+
+  <!-- ANCHORED MAIN CONTENT CANVAS -->
+  <main style="
+    position: absolute;
+    top: 11.5cqh;
+    bottom: 7cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 2cqh;
+    overflow: hidden;
+  ">
+
+    <!-- 1. HEADLINE NUMBERS GRID (SCORECARD) -->
+    <div style="
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5cqw;
+    ">
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 1.2cqh 1cqw; border-radius: 3px;">
+        <span style="font-family: 'Outfit', sans-serif; font-size: 1.3cqh; font-weight: 600; color: #15803d; text-transform: uppercase; display: block; margin-bottom: 0.3cqh;">New Logos</span>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 3.2cqh; font-weight: 600; color: #0f172a; line-height: 1;">05</span>
       </div>
+
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 1.2cqh 1cqw; border-radius: 3px;">
+        <span style="font-family: 'Outfit', sans-serif; font-size: 1.3cqh; font-weight: 600; color: #15803d; text-transform: uppercase; display: block; margin-bottom: 0.3cqh;">Overall Revenue</span>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 3.2cqh; font-weight: 600; color: #0f172a; line-height: 1;">$850K</span>
+      </div>
+
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 1.2cqh 1cqw; border-radius: 3px;">
+        <span style="font-family: 'Outfit', sans-serif; font-size: 1.3cqh; font-weight: 600; color: #15803d; text-transform: uppercase; display: block; margin-bottom: 0.3cqh;">MoM Growth</span>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 3.2cqh; font-weight: 600; color: #16a34a; line-height: 1;">+14.2%</span>
+      </div>
+
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 1.2cqh 1cqw; border-radius: 3px;">
+        <span style="font-family: 'Outfit', sans-serif; font-size: 1.3cqh; font-weight: 600; color: #15803d; text-transform: uppercase; display: block; margin-bottom: 0.3cqh;">YTD vs Target</span>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 3.2cqh; font-weight: 600; color: #0f172a; line-height: 1;">104%</span>
+      </div>
+    </div>
+
+    <!-- 2. FEATURED MILESTONE STORY -->
+    <div style="
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2cqw;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 3px;
+      padding: 1.5cqh 1.2cqw;
+      align-items: center;
+    ">
+      <div>
+        <span style="
+          display: inline-block;
+          background-color: #fef08a;
+          color: #854d0e;
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.2cqh;
+          font-weight: 600;
+          padding: 0.3cqh 0.8cqw;
+          border-radius: 2px;
+          margin-bottom: 0.8cqh;
+          letter-spacing: 0.04em;
+        ">KEY MILESTONE</span>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2.5cqh; font-weight: 600; color: #0f172a; margin: 0 0 0.8cqh 0; line-height: 1.2;">
+          A New Atlassian Milestone: Gold Solution Partner Status
+        </h2>
+        <p style="font-family: 'Outfit', sans-serif; font-size: 1.5cqh; font-weight: 400; color: #334155; line-height: 1.45; margin: 0;">
+          Canarys Automations Limited has officially been recognized as an Atlassian Gold Solution Partner. This achievement reflects our continued investment in Atlassian capabilities and our focus on helping organizations modernize collaboration, software delivery, and enterprise workflows.
+        </p>
+      </div>
+
+      <img src="https://picsum.photos/id/1060/600/350" alt="Atlassian Gold Partner" style="
+        width: 100%;
+        height: 18cqh;
+        object-fit: cover;
+        border-radius: 2px;
+        display: block;
+      " />
+    </div>
+
+    <!-- 3. DATA & LOGOS BREAKDOWN GRID (2-COLUMNS) -->
+    <div style="
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2cqw;
+      flex: 1;
+      min-height: 0;
+    ">
+
+      <!-- Left Table: New Logos Won -->
+      <div style="display: flex; flex-direction: column;">
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.8cqh; font-weight: 600; color: #0f172a; margin: 0 0 1cqh 0; border-bottom: 2px solid #16a34a; padding-bottom: 0.4cqh;">
+          New Logos Won
+        </h3>
+        
+        <table style="width: 100%; border-collapse: collapse; font-family: 'Outfit', sans-serif; font-size: 1.4cqh;">
+          <thead>
+            <tr style="background-color: #f1f5f9; color: #475569; font-weight: 600; text-align: left;">
+              <th style="padding: 0.8cqh 0.6cqw;">Client Name</th>
+              <th style="padding: 0.8cqh 0.6cqw;">Segment</th>
+              <th style="padding: 0.8cqh 0.6cqw;">Region</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw; font-weight: 600;">Enterprise FinTech Corp</td>
+              <td style="padding: 0.8cqh 0.6cqw;">AI Solutions</td>
+              <td style="padding: 0.8cqh 0.6cqw;">North America</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw; font-weight: 600;">Global Logistics Ltd</td>
+              <td style="padding: 0.8cqh 0.6cqw;">Cloud Services</td>
+              <td style="padding: 0.8cqh 0.6cqw;">APAC</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw; font-weight: 600;">AeroTech Systems</td>
+              <td style="padding: 0.8cqh 0.6cqw;">Consulting</td>
+              <td style="padding: 0.8cqh 0.6cqw;">India</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw; font-weight: 600;">Retail Digital Hub</td>
+              <td style="padding: 0.8cqh 0.6cqw;">DevOps Products</td>
+              <td style="padding: 0.8cqh 0.6cqw;">EMEA</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right Table: Revenue by Segment -->
+      <div style="display: flex; flex-direction: column;">
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.8cqh; font-weight: 600; color: #0f172a; margin: 0 0 1cqh 0; border-bottom: 2px solid #16a34a; padding-bottom: 0.4cqh;">
+          Revenue by Segment
+        </h3>
+
+        <table style="width: 100%; border-collapse: collapse; font-family: 'Outfit', sans-serif; font-size: 1.4cqh;">
+          <thead>
+            <tr style="background-color: #f1f5f9; color: #475569; font-weight: 600; text-align: left;">
+              <th style="padding: 0.8cqh 0.6cqw;">Segment</th>
+              <th style="padding: 0.8cqh 0.6cqw; text-align: right;">Revenue</th>
+              <th style="padding: 0.8cqh 0.6cqw; text-align: right;">% Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw;">AI Solutions</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right; font-weight: 600;">$320K</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right;">37.6%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw;">Cloud Services</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right; font-weight: 600;">$240K</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right;">28.2%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw;">Consulting</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right; font-weight: 600;">$180K</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right;">21.2%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+              <td style="padding: 0.8cqh 0.6cqw;">Products</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right; font-weight: 600;">$110K</td>
+              <td style="padding: 0.8cqh 0.6cqw; text-align: right;">13.0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FIXED FOOTER -->
+  <footer style="
+    position: absolute;
+    bottom: 1.5cqh;
+    left: 3.5cqw;
+    right: 3.5cqw;
+    height: 3.5cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6cqh;
+    font-weight: 400;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    box-sizing: border-box;
+  ">
+    <span>Canarys Newsletter</span>
+    <span>Page 03</span>
+  </footer>
+
+</div>
 
       <!-- Page 4 -->
       <div class="page">
